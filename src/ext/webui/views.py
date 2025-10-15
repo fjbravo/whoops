@@ -98,6 +98,7 @@ def export():
 
 
 def _query_all(model: Type[Model]):
+    """Get all records from database for model."""
     try:
         return db.session.query(model).all()
     except Exception:
@@ -114,12 +115,12 @@ def _add_all(models: List[Model]) -> int:
     for model in models:
         try:
             db.session.add(model)
-            db.session.flush()
+            db.session.commit()
             succeeded += 1
         except IntegrityError:
             db.session.rollback()
         except Exception:
+            db.session.rollback()
             raise
 
-    db.session.commit()
     return succeeded
