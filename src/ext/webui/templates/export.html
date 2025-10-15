@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+<div class="jumbotron">
+
+  <h2>Retrieved from Whoop API</h2>
+  <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Cycles
+        <span class="badge badge-primary badge-pill">{{ cycles | length }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Sleeps
+        <span class="badge badge-primary badge-pill">{{ sleeps | length }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Recoveries
+        <span class="badge badge-primary badge-pill">{{ recoveries | length }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Workouts
+        <span class="badge badge-primary badge-pill">{{ workouts | length }}</span>
+      </li>
+  </ul>
+</div>
+
+<div class="jumbotron">
+
+  <h2>Written to database</h2>
+  <ul class="list-group">
+      {% for name, count in succeeded.items() %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ name }} 
+          <span class="badge badge-primary badge-pill">{{ count }}</span>
+        </li>
+      {% endfor %}
+
+  </ul>
+</div>
+
+</div>
+{% endblock %}
