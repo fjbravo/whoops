@@ -1,15 +1,32 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}{{config.get('TITLE')}}{% endblock %}
+{% block title %}{{ config.get('TITLE') }}{% endblock %}
 
 {% block navbar %}
 <div class="navbar">
-<div class="navbar-header">
-</div>
+  <div class="navbar-header">
+  </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-</div>
 
+  <div class="jumbotron">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} mt-2" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block page_content %}{% endblock %}
+
+  </div>
+
+</div>
 {% endblock %}
+

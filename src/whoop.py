@@ -2,7 +2,8 @@ import logging
 import random
 import string
 import urllib.parse
-from typing import Dict, List, Optional, Type
+from datetime import datetime, timedelta
+from typing import Dict, List, Type
 
 import requests
 from flask import current_app
@@ -24,23 +25,8 @@ class WhoopClient:
     def __init__(self, client_id, client_secret):
         self.client_id = client_id
         self.client_secret = client_secret
-        self.tokens: Optional[Dict] = None
-
-    def _post_token_request(self, data: Dict) -> Dict:
-        """Internal helper to post to the token endpoint."""
-        url = f"{API_ENDPOINT}oauth/oauth2/token"
-        response = requests.post(url, data=data)
-        response.raise_for_status()
-        return response.json()
-
-    def _build_token_params(self, **overrides) -> Dict:
-        """Base token params with overrides."""
-        base = {
-            "client_id": self.client_id,
-            "client_secret": self.client_secret,
-        }
-        base.update(overrides)
-        return base
+        self.tokens: Dict = {}
+        self.refreshed_at: datetime = datetime.now()
 
     def set_tokens(self, auth_code: str) -> None:
         """Exchange authorization code for tokens."""
@@ -51,26 +37,26 @@ class WhoopClient:
         )
         self.tokens = self._post_token_request(params)
 
-    def refresh_token(self) -> bool:
-        """Refresh the existing token if possible."""
+    def needs_refresh(self) -> bool:
+        """Check if the token needs to be refreshed."""
         if not self.tokens:
-            return False
-
-        if self.tokens["expires_in"] > 300:
             return True
+
+        if datetime.now() - self.refreshed_at >= timedelta(minutes=55):
+            return True
+
+        return False
+
+    def refresh_token(self):
+        """Refresh the existing token if needed."""
 
         params = self._build_token_params(
             grant_type="refresh_token",
-            refresh_token=self.tokens["refresh_token"],
+            refresh_token=self.tokens.get("refresh_token"),
             scope="offline",
         )
 
-        try:
-            self.tokens = self._post_token_request(params)
-            return True
-        except requests.HTTPError as e:
-            logger.error(f"Token refresh failed: {e}")
-            return False
+        self.tokens = self._post_token_request(params)
 
     def authorization_url(self):
         """Build the OAuth authorization URL."""
@@ -121,6 +107,22 @@ class WhoopClient:
             url = f"{base_url}?nextToken={next_token}" if next_token else None
 
         return results
+
+    def _post_token_request(self, data: Dict) -> Dict:
+        """Internal helper to post to the token endpoint."""
+        url = f"{API_ENDPOINT}oauth/oauth2/token"
+        response = requests.post(url, data=data)
+        response.raise_for_status()
+        return response.json()
+
+    def _build_token_params(self, **overrides) -> Dict:
+        """Base token params with overrides."""
+        base = {
+            "client_id": self.client_id,
+            "client_secret": self.client_secret,
+        }
+        base.update(overrides)
+        return base
 
     def _auth_header(self) -> Dict:
         if self.tokens:

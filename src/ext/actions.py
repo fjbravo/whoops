@@ -10,8 +10,12 @@ logger = logging.getLogger(__name__)
 
 def refresh_token(app):
     whoop_client = app.config["WhoopClient"]
-    if not whoop_client.refresh_token():
-        logger.error("Manual authorization required. Visit /authorize.")
+    if whoop_client.needs_refresh():
+        try:
+            whoop_client.refresh_token()
+            logger.info("Token refreshed successfully.")
+        except requests.HTTPError:
+            logger.error("Manual authorization required. Visit /authorize.")
 
 
 def export_action(app):

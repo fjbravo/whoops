@@ -1,7 +1,6 @@
 import logging
 import os
 
-from databases import Database
 from dynaconf import FlaskDynaconf
 from flask import Flask
 

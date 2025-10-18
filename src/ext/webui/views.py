@@ -85,6 +85,7 @@ def export():
             for name, models in models.items():
                 succeeded_count[name] = add_all(models)
 
+        flash("Export finished", "success")
     except requests.HTTPError as e:
         flash(f"Error retrieving Whoop data: {e}", "danger")
         return redirect(url_for("webui.index"))
