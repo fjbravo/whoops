@@ -47,7 +47,7 @@ def init_app(app):
     scheduler.add_job(
         export_action,
         "interval",
-        seconds=20,
+        hours=24,
         args=[app],
     )
 
