@@ -6,4 +6,5 @@ EXTENSIONS = [
   "flask_bootstrap:Bootstrap",
   "src.ext.database:init_app",
   "src.ext.webui:init_app",
+  "src.ext.actions:init_app",
 ]

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Dict, Tuple
 
 from src.ext.database import db
 

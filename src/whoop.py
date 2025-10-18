@@ -2,7 +2,7 @@ import logging
 import random
 import string
 import urllib.parse
-from typing import Dict, Optional, List, Type
+from typing import Dict, List, Optional, Type
 
 import requests
 from flask import current_app
@@ -12,7 +12,6 @@ from src.models.cycle import WhoopCycle
 from src.models.recovery import WhoopRecovery
 from src.models.sleep import WhoopSleep
 from src.models.workout import WhoopWorkout
-
 
 API_ENDPOINT = "https://api.prod.whoop.com/"
 API_VERSION = "developer/v2"
@@ -56,6 +55,9 @@ class WhoopClient:
         """Refresh the existing token if possible."""
         if not self.tokens:
             return False
+
+        if self.tokens["expires_in"] > 300:
+            return True
 
         params = self._build_token_params(
             grant_type="refresh_token",

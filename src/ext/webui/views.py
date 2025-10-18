@@ -1,12 +1,9 @@
 import logging
-from typing import List, Type, TypeVar
 
 import requests
-from flask import current_app, redirect, render_template, request
-from sqlalchemy.exc import IntegrityError
+from flask import current_app, flash, redirect, render_template, request, url_for
 
-from src.ext.database import db
-from src.models import Model
+from src.ext.database import add_all, query_all
 from src.models.cycle import WhoopCycle
 from src.models.recovery import WhoopRecovery
 from src.models.sleep import WhoopSleep
@@ -19,10 +16,10 @@ def index():
     """
     Retrieve data from database.
     """
-    cycles = _query_all(WhoopCycle)
-    sleeps = _query_all(WhoopSleep)
-    recoveries = _query_all(WhoopRecovery)
-    workouts = _query_all(WhoopWorkout)
+    cycles = query_all(WhoopCycle)
+    sleeps = query_all(WhoopSleep)
+    recoveries = query_all(WhoopRecovery)
+    workouts = query_all(WhoopWorkout)
 
     return render_template(
         "index.html",
@@ -51,20 +48,24 @@ def callback():
     state = request.args.get("state")
 
     if state != current_app.config["OAuthState"]:
-        return "Error: Invalid state parameter", 400
+        flash("Invalid OAuth state", "danger")
 
     try:
         current_app.config["WhoopClient"].set_tokens(code)
-        return "Authorized", 200
+        flash("Authorized", "success")
 
     except requests.HTTPError as e:
-        return f"Failed to set tokens - {e}", 500
+        flash(f"Failed to set tokens: {e}", "danger")
+        return redirect(url_for("webui.index"))
+
+    return redirect(url_for("webui.index"))
 
 
 def export():
     """
     Retrieve and export Whoop data.
     """
+
     whoop_client = current_app.config["WhoopClient"]
     succeeded_count = {}
     try:
@@ -73,7 +74,7 @@ def export():
         recoveries = whoop_client.get_recoveries()
         workouts = whoop_client.get_workouts()
 
-        datasets = {
+        models = {
             "Cycles": cycles,
             "Sleeps": sleeps,
             "Recoveries": recoveries,
@@ -81,11 +82,12 @@ def export():
         }
 
         with current_app.app_context():
-            for name, dataset in datasets.items():
-                succeeded_count[name] = _add_all(dataset)
+            for name, models in models.items():
+                succeeded_count[name] = add_all(models)
 
     except requests.HTTPError as e:
-        return f"Error retrieving Whoop data: {e}", 500
+        flash(f"Error retrieving Whoop data: {e}", "danger")
+        return redirect(url_for("webui.index"))
 
     return render_template(
         "export.html",
@@ -95,32 +97,3 @@ def export():
         workouts=workouts,
         succeeded=succeeded_count,
     )
-
-
-def _query_all(model: Type[Model]):
-    """Get all records from database for model."""
-    try:
-        return db.session.query(model).all()
-    except Exception:
-        db.session.rollback()
-        raise
-
-
-def _add_all(models: List[Model]) -> int:
-    """Add a list of models to the database."""
-    if not models:
-        return 0
-
-    succeeded = 0
-    for model in models:
-        try:
-            db.session.add(model)
-            db.session.commit()
-            succeeded += 1
-        except IntegrityError:
-            db.session.rollback()
-        except Exception:
-            db.session.rollback()
-            raise
-
-    return succeeded

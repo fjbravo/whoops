@@ -2,9 +2,21 @@
 {% block content %}
 <div class="container">
 
+<div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">
+              {{ message }}
+            </div>
+        {% endfor %}
+      {% endif %}
+  {% endwith %}
+</div>
+
 <div class="jumbotron">
 
-  <h2>From database</h2>
+  <h2>Currently in database</h2>
   <ul class="list-group">
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Cycles

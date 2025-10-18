@@ -1,9 +1,11 @@
-import os
 import logging
-from flask import Flask
-from dynaconf import FlaskDynaconf
-from .whoop import WhoopClient
+import os
 
+from databases import Database
+from dynaconf import FlaskDynaconf
+from flask import Flask
+
+from .whoop import WhoopClient
 
 REQUIRED_VARS = [
     "CLIENT_ID",

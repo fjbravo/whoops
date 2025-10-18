@@ -1,4 +1,5 @@
 from typing import TypeVar
+
 from .cycle import WhoopCycle
 from .recovery import WhoopRecovery
 from .sleep import WhoopSleep
