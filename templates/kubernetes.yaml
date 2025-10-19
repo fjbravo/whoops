@@ -1,0 +1,69 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  name: whoops
+  namespace: whoops
+spec:
+  ingressClassName: "nginx"
+  rules:
+    - host: <host>
+      http:
+        paths:
+          - backend:
+              service:
+                name: whoops
+                port:
+                  number: 5000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - <host>
+      secretName: whoops-tls-prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoops
+  namespace: whoops
+spec:
+  selector:
+    app: whoops
+  ports:
+    - protocol: "TCP"
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoops
+  namespace: whoops
+spec:
+  selector:
+    matchLabels:
+      app: whoops
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: whoops
+    spec:
+      containers:
+        - name: whoops
+          image: docker.io/kryoseu/whoops:v0.1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          env:
+            - name: CLIENT_ID
+              value: "<your-whoop-client-id-here"
+            - name: CLIENT_SECRET
+              value: "<your-shoop-client-secret-here"
+            - name: REDIRECT_URI
+              value: "https://<host>/callback"
+            - name: SQLALCHEMY_DATABASE_URI
+              value: "postgresql+psycopg2://whoops:whoops@<whoop-postgres-service>.<namespace>.svc.cluster.local:5432/whoop_data"

@@ -7,15 +7,15 @@ from src.ext.database import db
 class WhoopSleep(db.Model):
     __tablename__ = "whoop_sleep"
 
-    id = db.Column(db.String, primary_key=True)
+    id = db.Column(db.String(36), primary_key=True)
     cycle_id = db.Column(db.BigInteger, nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=True)
     start = db.Column(db.DateTime(timezone=True), nullable=False)
     end = db.Column(db.DateTime(timezone=True), nullable=False)
-    timezone_offset = db.Column(db.String, nullable=True)
+    timezone_offset = db.Column(db.String(10), nullable=True)
     nap = db.Column(db.Boolean, nullable=True)
-    score_state = db.Column(db.String, nullable=True)
+    score_state = db.Column(db.String(15), nullable=True)
 
     # Score fields
     respiratory_rate = db.Column(db.Float, nullable=False)

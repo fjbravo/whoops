@@ -36,6 +36,7 @@ class WhoopClient:
             redirect_uri=current_app.config["REDIRECT_URI"],
         )
         self.tokens = self._post_token_request(params)
+        self.refreshed_at = datetime.now()
 
     def needs_refresh(self) -> bool:
         """Check if the token needs to be refreshed."""
@@ -57,6 +58,7 @@ class WhoopClient:
         )
 
         self.tokens = self._post_token_request(params)
+        self.refreshed_at = datetime.now()
 
     def authorization_url(self):
         """Build the OAuth authorization URL."""

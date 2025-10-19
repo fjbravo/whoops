@@ -7,12 +7,12 @@ from src.ext.database import db
 class WhoopRecovery(db.Model):
     __tablename__ = "whoop_recovery"
 
-    sleep_id = db.Column(db.String, primary_key=True)
+    sleep_id = db.Column(db.String(36), primary_key=True)
     cycle_id = db.Column(db.BigInteger, nullable=False)
     user_id = db.Column(db.BigInteger, nullable=False)
     timestamp = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=False)
-    score_state = db.Column(db.String, nullable=False)
+    score_state = db.Column(db.String(15), nullable=False)
     user_calibrating = db.Column(db.Boolean, nullable=False)
 
     # Score fields

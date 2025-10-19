@@ -49,6 +49,7 @@ def callback():
 
     if state != current_app.config["OAuthState"]:
         flash("Invalid OAuth state", "danger")
+        return redirect(url_for("webui.index"))
 
     try:
         current_app.config["WhoopClient"].set_tokens(code)

@@ -12,8 +12,8 @@ class WhoopCycle(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), nullable=False)
     start = db.Column(db.DateTime(timezone=True), nullable=False)
     end = db.Column(db.DateTime(timezone=True), nullable=True)
-    timezone_offset = db.Column(db.String, nullable=False)
-    score_state = db.Column(db.String, nullable=False)
+    timezone_offset = db.Column(db.String(10), nullable=False)
+    score_state = db.Column(db.String(15), nullable=False)
 
     # Score fields
     strain = db.Column(db.Float, nullable=False)
