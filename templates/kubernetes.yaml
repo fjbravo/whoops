@@ -60,9 +60,9 @@ spec:
             - containerPort: 5000
           env:
             - name: CLIENT_ID
-              value: "<your-whoop-client-id-here"
+              value: "<your-whoop-client-id-here>"
             - name: CLIENT_SECRET
-              value: "<your-shoop-client-secret-here"
+              value: "<your-shoop-client-secret-here>"
             - name: REDIRECT_URI
               value: "https://<host>/callback"
             - name: SQLALCHEMY_DATABASE_URI

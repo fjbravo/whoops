@@ -11,6 +11,8 @@ services:
       SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://whoops:whoops@postgres:5432/whoop_data"
       # Alternative for MySQL
       # SQLALCHEMY_DATABASE_URI: "mysql+pymysql://whoops:whoops@mysql:3306/whoop_data"
+      # Or for external DB
+      # SQLALCHEMY_DATABASE_URI: "mysql+pymysql://whoops:whoops@<ip>:<port>/whoop_data"
     restart: unless-stopped
 
   postgres:
