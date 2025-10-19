@@ -17,11 +17,26 @@ Whoops is a simple Flask application that exports your Whoop data into a Postgre
 > [!NOTE]
 > The redirect URL configured for your Whoop app must match the URL where Whoops will run (e.g., `http://localhost:5000`).
 
-# Installation
-> [!NOTE]
-> Example Docker compose files and kubernetes manifests are provided in the [templates](https://github.com/kryoseu/whoops/tree/main/templates) section.
+# Getting Started
+Example Docker compose file and kubernetes manifests are provided in the [templates](https://github.com/kryoseu/whoops/tree/main/templates) section, which shows how to install a database along with Whoops, in case you don't have one yet.
 
-You can run Whoops using Docker:
+## With Docker
+Using Docker compose:
+```
+services:
+  whoops:
+    image: docker.io/kryoseu/whoops:v0.1.1
+    container_name: whoops
+    ports:
+      - "5000:5000"
+    environment:
+      CLIENT_ID: "<your-whoop-client-id-here"
+      CLIENT_SECRET: "<your-whoop-client-secret-here"
+      REDIRECT_URI: "http://localhost:5000/callback"
+      SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://whoops:whoops@127.0.0.1:5432/whoop_data"
+    restart: unless-stopped
+```
+or Docker run:
 
 ```bash
 docker run -d \
@@ -31,7 +46,7 @@ docker run -d \
   -e CLIENT_SECRET="<your-whoop-client-secret>" \
   -e REDIRECT_URI="http://localhost:5000/callback" \
   -e SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://whoops:whoops@127.0.0.1:5432/whoop_data" \
-  docker.io/kryoseu/whoops:v0.1.0
+  docker.io/kryoseu/whoops:v0.1.1
 ```
 
 Update `SQLALCHEMY_DATABASE_URI` depending on your database:
@@ -52,3 +67,4 @@ Update `SQLALCHEMY_DATABASE_URI` depending on your database:
 If you have [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) installed, you can import the provided [dashboard JSON](https://github.com/kryoseu/whoops/blob/main/templates/grafana.json) to visualize your Whoop data.
 
 <img width="1259" height="1223" alt="251018_23h36m05s_screenshot" src="https://github.com/user-attachments/assets/15a9c0ac-c974-4fcc-b322-36c50bb37a31" />
+
