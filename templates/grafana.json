@@ -118,7 +118,6 @@
         }
       ],
       "title": "Sleep needed baseline",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -216,7 +215,6 @@
         }
       ],
       "title": "Sleep Debt",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -302,7 +300,6 @@
         }
       ],
       "title": "AVG heart rate",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -419,7 +416,6 @@
         }
       ],
       "title": "Strain vs Recovery Score",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -563,7 +559,6 @@
         }
       ],
       "title": "AVG vs MAX Heart Rate",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -678,7 +673,6 @@
         }
       ],
       "title": "Kilojoules",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -808,7 +802,6 @@
         }
       ],
       "title": "REM Sleep Duration",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -954,7 +947,6 @@
         }
       ],
       "title": "Needed vs Debt",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1095,7 +1087,6 @@
         }
       ],
       "title": "In bed vs Awake",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1239,7 +1230,6 @@
         }
       ],
       "title": "Sleep Duration vs Performance",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1416,7 +1406,6 @@
         }
       ],
       "title": "Cycle vs Disturbance",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1564,7 +1553,6 @@
         }
       ],
       "title": "Efficiency",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1713,7 +1701,6 @@
         }
       ],
       "title": "Consistency",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1861,7 +1848,6 @@
         }
       ],
       "title": "Respiratory Rate",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1995,7 +1981,6 @@
         }
       ],
       "title": "HRV vs Resting Heart Rate",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2172,7 +2157,6 @@
         }
       ],
       "title": "Skin Temperature vs Recovery Score",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2317,7 +2301,6 @@
         }
       ],
       "title": "SpO2",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2383,7 +2366,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 6,
+        "w": 7,
         "x": 0,
         "y": 40
       },
@@ -2437,7 +2420,6 @@
         }
       ],
       "title": "Workout count",
-      "transparent": true,
       "type": "stat"
     },
     {
@@ -2573,7 +2555,6 @@
         }
       ],
       "title": "Strain",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2709,7 +2690,6 @@
         }
       ],
       "title": "AVG vs MAX heart rate",
-      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2736,7 +2716,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 8,
+        "w": 9,
         "x": 0,
         "y": 46
       },
@@ -2798,7 +2778,6 @@
         }
       ],
       "title": "Zone split ",
-      "transparent": true,
       "type": "piechart"
     },
     {
@@ -2911,7 +2890,6 @@
         }
       ],
       "title": "Zone split ",
-      "transparent": true,
       "type": "barchart"
     }
   ],
@@ -2928,12 +2906,12 @@
     "list": []
   },
   "time": {
-    "from": "now-90d",
+    "from": "now-30d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Whoop — Recovery & Sleep Insights",
   "uid": "whoop-simplified",
-  "version": 12
+  "version": 15
 }
