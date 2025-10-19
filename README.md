@@ -18,7 +18,7 @@ Whoops is a simple Flask application that exports your Whoop data into a Postgre
 > The redirect URL configured for your Whoop app must match the URL where Whoops will run (e.g., `http://localhost:5000`).
 
 # Getting Started
-Example Docker compose file and kubernetes manifests are provided in the [templates](https://github.com/kryoseu/whoops/tree/main/templates) section, which shows how to install a database along with Whoops, in case you don't have one yet.
+Example Docker compose file and kubernetes manifests are provided in the [templates](https://github.com/kryoseu/whoops/tree/main/templates) section, which also include how to install a database along with Whoops, in case you don't have one yet.
 
 ## With Docker
 Using Docker compose:
@@ -67,5 +67,6 @@ Update `SQLALCHEMY_DATABASE_URI` depending on your database:
 If you have [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) installed, you can import the provided [dashboard JSON](https://github.com/kryoseu/whoops/blob/main/templates/grafana.json) to visualize your Whoop data.
 
 <img width="1259" height="1223" alt="251018_23h36m05s_screenshot" src="https://github.com/user-attachments/assets/15a9c0ac-c974-4fcc-b322-36c50bb37a31" />
+
 
 
