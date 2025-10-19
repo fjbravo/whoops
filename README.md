@@ -1,0 +1,54 @@
+[![Python](https://img.shields.io/badge/python-3.13-blue?style=flat-square)](https://www.python.org/downloads/release/python-3130/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+
+# Whoops
+
+Whoops is a simple Flask application that exports your Whoop data into a PostgreSQL or MySQL database.  
+
+**Features:**
+- Manual export via the `/export` endpoint.
+- Automatic API token refresh.
+- Scheduled daily export of your Whoop data.
+## Requirements
+
+- Docker (or a Kubernetes cluster)
+- A Whoop API **Client ID** and **Client Secret** from the [Whoop Developer Dashboard](https://developer-dashboard.whoop.com/)
+
+> [!NOTE]
+> The redirect URL configured for your Whoop app must match the URL where Whoops will run (e.g., `http://localhost:5000`).
+
+# Installation
+> [!NOTE]
+> Example Docker compose files and kubernetes manifests are provided in the [templates](https://github.com/kryoseu/whoops/tree/main/templates) section.
+
+You can run Whoops using Docker:
+
+```bash
+docker run -d \
+  --name whoops \
+  --network host \
+  -e CLIENT_ID="<your-whoop-client-id>" \
+  -e CLIENT_SECRET="<your-whoop-client-secret>" \
+  -e REDIRECT_URI="http://localhost:5000/callback" \
+  -e SQLALCHEMY_DATABASE_URI="postgresql+psycopg2://whoops:whoops@127.0.0.1:5432/whoop_data" \
+  docker.io/kryoseu/whoops:v0.1.0
+```
+
+Update `SQLALCHEMY_DATABASE_URI` depending on your database:
+- PostgreSQL: `postgresql+psycopg2://whoops:whoops@<host>:5432/whoop_data`
+- MySQL: `mysql+pymysql://whoops:whoops@<host>:3306/whoop_data`
+
+# Usage
+
+1. Navigate to [http://localhost:5000/authorize](http://localhost:5000/authorize) to authorize Whoops to access your Whoop data.
+2. Export your data manually by visiting [http://localhost:5000/export](http://localhost:5000/export).
+3. Check the current database count at [http://localhost:5000/](http://localhost:5000/).
+
+> [!TIP]
+> The app will automatically refresh tokens and export your data every 24 hours.
+
+
+# Grafana
+If you have [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) installed, you can import the provided [dashboard JSON](https://github.com/kryoseu/whoops/blob/main/templates/grafana.json) to visualize your Whoop data.
+
+<img width="1259" height="1223" alt="251018_23h36m05s_screenshot" src="https://github.com/user-attachments/assets/15a9c0ac-c974-4fcc-b322-36c50bb37a31" />
