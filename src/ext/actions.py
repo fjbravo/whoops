@@ -6,6 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from .database import add_all
 
 logger = logging.getLogger(__name__)
+logging.getLogger("apscheduler.scheduler").setLevel(logging.WARNING)
 
 
 def refresh_token(app):
