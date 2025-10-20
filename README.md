@@ -66,7 +66,7 @@ Update `SQLALCHEMY_DATABASE_URI` depending on your database:
 # Grafana
 If you have [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) installed, you can import the provided [dashboard JSON](https://github.com/kryoseu/whoops/blob/main/templates/grafana.json) to visualize your Whoop data.
 
-<img width="1259" height="1223" alt="251018_23h36m05s_screenshot" src="https://github.com/user-attachments/assets/15a9c0ac-c974-4fcc-b322-36c50bb37a31" />
+<img width="1266" height="1229" alt="251019_18h07m38s_screenshot" src="https://github.com/user-attachments/assets/ac026d07-dfc6-4f10-bbec-2d62fc81be3c" />
 
 
 
