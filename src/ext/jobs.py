@@ -6,10 +6,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from .database import add_all
 
 logger = logging.getLogger(__name__)
+
 logging.getLogger("apscheduler.scheduler").setLevel(logging.WARNING)
+logging.getLogger("apscheduler.executors.default").setLevel(logging.WARNING)
 
 
-def refresh_token(app):
+def refresh_token_job(app):
+    logger.info("Running refresh token job")
+
     whoop_client = app.config["WhoopClient"]
     if whoop_client.needs_refresh():
         try:
@@ -19,9 +23,10 @@ def refresh_token(app):
             logger.error("Manual authorization required. Visit /authorize.")
 
 
-def export_action(app):
-    whoop_client = app.config["WhoopClient"]
+def export_job(app):
+    logger.info("Running export job")
 
+    whoop_client = app.config["WhoopClient"]
     try:
         cycles = whoop_client.get_cycles()
         sleeps = whoop_client.get_sleeps()
@@ -43,17 +48,13 @@ def init_app(app):
     scheduler = BackgroundScheduler()
 
     scheduler.add_job(
-        refresh_token,
+        refresh_token_job,
         "interval",
         minutes=5,
         args=[app],
+        id="refresh_token_job",
     )
 
-    scheduler.add_job(
-        export_action,
-        "interval",
-        hours=24,
-        args=[app],
-    )
+    app.config["Scheduler"] = scheduler
 
     scheduler.start()
