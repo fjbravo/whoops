@@ -42,3 +42,18 @@ class WhoopCycle(db.Model):
             avg_heart_rate=score["average_heart_rate"],  # type: ignore
             max_heart_rate=score["max_heart_rate"],  # type: ignore
         )
+
+    def to_dict(self) -> Dict:
+        return {
+            "id": self.id,
+            "timestamp": self.timestamp.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+            "start": self.start.isoformat(),
+            "end": self.end.isoformat() if self.end else None,
+            "timezone_offset": self.timezone_offset,
+            "score_state": self.score_state,
+            "strain": self.strain,
+            "kilojoule": self.kilojoule,
+            "avg_heart_rate": self.avg_heart_rate,
+            "max_heart_rate": self.max_heart_rate,
+        }

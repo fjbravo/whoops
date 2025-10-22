@@ -42,3 +42,19 @@ class WhoopRecovery(db.Model):
             spo2_perc=score["spo2_percentage"],  # type: ignore
             skin_temp_celsius=score["skin_temp_celsius"],  # type: ignore
         )
+
+    def to_dict(self) -> Dict:
+        return {
+            "sleep_id": self.sleep_id,
+            "cycle_id": self.cycle_id,
+            "user_id": self.user_id,
+            "timestamp": self.timestamp.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+            "score_state": self.score_state,
+            "user_calibrating": self.user_calibrating,
+            "recovery_score": self.recovery_score,
+            "resting_heart_rate": self.resting_heart_rate,
+            "hrv_rmssd_ms": self.hrv_rmssd_ms,
+            "spo2_perc": self.spo2_perc,
+            "skin_temp_celsius": self.skin_temp_celsius,
+        }

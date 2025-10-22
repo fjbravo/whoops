@@ -64,3 +64,30 @@ class WhoopWorkout(db.Model):
             zone_four_milli=zones.get("zone_four_milli"),  # type: ignore
             zone_five_milli=zones.get("zone_five_milli"),  # type: ignore
         )
+
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "timestamp": self.timestamp.isoformat(),
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "start": self.start.isoformat(),
+            "end": self.end.isoformat(),
+            "timezone_offset": self.timezone_offset,
+            "sport_name": self.sport_name,
+            "score_state": self.score_state,
+            "strain": self.strain,
+            "avg_heart_rate": self.avg_heart_rate,
+            "max_heart_rate": self.max_heart_rate,
+            "kilojoule": self.kilojoule,
+            "percent_recorded": self.percent_recorded,
+            "distance_meter": self.distance_meter,
+            "altitude_gain_meter": self.altitude_gain_meter,
+            "altitude_change_meter": self.altitude_change_meter,
+            "zone_zero_milli": self.zone_zero_milli,
+            "zone_one_milli": self.zone_one_milli,
+            "zone_two_milli": self.zone_two_milli,
+            "zone_three_milli": self.zone_three_milli,
+            "zone_four_milli": self.zone_four_milli,
+            "zone_five_milli": self.zone_five_milli,
+        }
