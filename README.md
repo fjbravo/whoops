@@ -56,8 +56,7 @@ Update `SQLALCHEMY_DATABASE_URI` depending on your database:
 # Usage
 
 1. Navigate to [http://localhost:5000/authorize](http://localhost:5000/authorize) to authorize Whoops to access your Whoop data.
-2. Export your data manually by visiting [http://localhost:5000/export](http://localhost:5000/export).
-3. Check the current database count at [http://localhost:5000/](http://localhost:5000/).
+2. Navigate to [http://localhost:5000](http://localhost:5000) to set when export job runs or trigger a manual export.
 
 > [!TIP]
 > The app will automatically refresh tokens and export your data every 24 hours.
@@ -67,6 +66,7 @@ Update `SQLALCHEMY_DATABASE_URI` depending on your database:
 If you have [Grafana](https://grafana.com/docs/grafana/latest/setup-grafana/installation/) installed, you can import the provided [dashboard JSON](https://github.com/kryoseu/whoops/blob/main/templates/grafana.json) to visualize your Whoop data.
 
 <img width="1266" height="1229" alt="251019_18h07m38s_screenshot" src="https://github.com/user-attachments/assets/ac026d07-dfc6-4f10-bbec-2d62fc81be3c" />
+
 
 
 
