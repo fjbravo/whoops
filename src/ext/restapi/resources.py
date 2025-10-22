@@ -1,10 +1,6 @@
-import logging
-
 import requests
 from flask import abort, current_app, jsonify
 from flask_restful import Resource
-
-logger = logging.getLogger(__name__)
 
 
 class WhoopDataResource(Resource):
