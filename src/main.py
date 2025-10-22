@@ -28,7 +28,8 @@ def create_app():
     FlaskDynaconf(app)
 
     app.config["WhoopClient"] = WhoopClient(
-        os.getenv("CLIENT_ID"), os.getenv("CLIENT_SECRET")
+        os.getenv("CLIENT_ID", ""),
+        os.getenv("CLIENT_SECRET", ""),
     )
     app.config["REDIRECT_URI"] = os.getenv("REDIRECT_URI")
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")

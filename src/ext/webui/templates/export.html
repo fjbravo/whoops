@@ -1,34 +1,32 @@
 {% extends "base.html" %}
 {% block page_content %}
-
-<h2>Retrieved from Whoop API</h2>
-<ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Cycles
-      <span class="badge badge-primary badge-pill">{{ cycles | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Sleeps
-      <span class="badge badge-primary badge-pill">{{ sleeps | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Recoveries
-      <span class="badge badge-primary badge-pill">{{ recoveries | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Workouts
-      <span class="badge badge-primary badge-pill">{{ workouts | length }}</span>
-    </li>
-</ul>
-
-<h2>New items written to database</h2>
-<ul class="list-group">
-    {% for name, count in succeeded.items() %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-      {{ name }} 
-        <span class="badge badge-primary badge-pill">{{ count }}</span>
+  <h2>Retrieved from Whoop API</h2>
+  <ul class="list-group">
+      <li class="list-group-item">
+        Cycles
+        <span class="badge badge-primary badge-pill">{{ cycles | length }}</span>
       </li>
-    {% endfor %}
-</ul>
+      <li class="list-group-item">
+        Sleeps
+        <span class="badge badge-primary badge-pill">{{ sleeps | length }}</span>
+      </li>
+      <li class="list-group-item">
+        Recoveries
+        <span class="badge badge-primary badge-pill">{{ recoveries | length }}</span>
+      </li>
+      <li class="list-group-item">
+        Workouts
+        <span class="badge badge-primary badge-pill">{{ workouts | length }}</span>
+      </li>
+  </ul>
 
+  <h2>New items written to database</h2>
+  <ul class="list-group">
+      {% for name, count in succeeded.items() %}
+        <li class="list-group-item">
+        {{ name }} 
+          <span class="badge badge-primary badge-pill">{{ count }}</span>
+        </li>
+      {% endfor %}
+  </ul>
 {% endblock %}

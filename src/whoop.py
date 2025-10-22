@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 
 
 class WhoopClient:
-    def __init__(self, client_id, client_secret):
-        self.client_id = client_id
-        self.client_secret = client_secret
+    def __init__(self, client_id: str, client_secret: str):
+        self.client_id: str = client_id
+        self.client_secret: str = client_secret
         self.tokens: Dict = {}
         self.refreshed_at: datetime = datetime.now()
 

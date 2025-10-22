@@ -1,25 +1,46 @@
 {% extends "base.html" %}
 {% block page_content %}
+  <div id="error-container"></div>
 
-<h2>Currently in database</h2>
-<ul class="list-group">
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Cycles
-      <span class="badge badge-primary badge-pill">{{ cycles | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Sleeps
-      <span class="badge badge-primary badge-pill">{{ sleeps | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Recoveries
-      <span class="badge badge-primary badge-pill">{{ recoveries | length }}</span>
-    </li>
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      Workouts
-      <span class="badge badge-primary badge-pill">{{ workouts | length }}</span>
-    </li>
-</ul>
+  <div class="jumbotron">
+    <h2>Currently in database</h2>
+    <ul id="database-items" class="list-group">
+        <li class="list-group-item">
+          Cycles
+          <span class="badge badge-primary badge-pill">{{ cycles | length }}</span>
+        </li>
+        <li class="list-group-item">
+          Sleeps
+          <span class="badge badge-primary badge-pill">{{ sleeps | length }}</span>
+        </li>
+        <li class="list-group-item">
+          Recoveries
+          <span class="badge badge-primary badge-pill">{{ recoveries | length }}</span>
+        </li>
+        <li class="list-group-item">
+          Workouts
+          <span class="badge badge-primary badge-pill">{{ workouts | length }}</span>
+        </li>
+    </ul>
+  </div>
 
+  <div class="card p-3">
+    <p class="small text-muted wait" style="margin-bottom: 10px;"> Exporting.. </p>
+    <button id="export-button" class="btn btn-primary" style="margin-bottom:10px;">Export Now</button>
+    <p class="small text-muted"> Immediately export data to the database. </p>
+  </div>
+
+  <div class="card p-3">
+    <label for="hour-input">Hour:</label>
+    <input type="number" id="hour-input" min="0" max="23" class="form-control">
+
+    <label for="minute-input">Minute:</label>
+    <input type="number" id="minute-input" min="0" max="59" class="form-control">
+
+    <button id="schedule-button" class="btn btn-success">Schedule Export</button>
+    <p class="small text-muted"> Export will run daily at the chosen time. </p>
+  </div>
+
+  <script type="module" src="{{ url_for('webui.static', filename='js/index.js') }}"></script>
 {% endblock %}
 

@@ -1,31 +1,31 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}{{ config.get('TITLE') }}{% endblock %}
 
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('webui.static', filename='css/style.css') }}">
+{% endblock %}
+
 {% block navbar %}
-<div class="navbar">
-  <div class="navbar-header">
+  <div class="navbar">
+    <div class="navbar-header"></div>
   </div>
-</div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
 
-  <div class="jumbotron">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} mt-2" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{{ category }} mt-2" role="alert">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    {% block page_content %}{% endblock %}
-
-  </div>
+  {% block page_content %} {% endblock %}
 
 </div>
 {% endblock %}
