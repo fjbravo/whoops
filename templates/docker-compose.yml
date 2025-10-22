@@ -1,6 +1,6 @@
 services:
   whoops:
-    image: docker.io/kryoseu/whoops:v0.1.1
+    image: docker.io/kryoseu/whoops:latest
     container_name: whoops
     ports:
       - "5000:5000"
