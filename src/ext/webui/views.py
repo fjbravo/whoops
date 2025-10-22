@@ -1,9 +1,19 @@
 import logging
 
 import requests
-from flask import current_app, flash, redirect, render_template, request, url_for
+from flask import (
+    abort,
+    current_app,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 
 from src.ext.database import add_all, query_all
+from src.ext.jobs import export_job
 from src.models.cycle import WhoopCycle
 from src.models.recovery import WhoopRecovery
 from src.models.sleep import WhoopSleep
@@ -66,10 +76,15 @@ def export():
     """
     Retrieve and export Whoop data.
     """
+    raise_on_error = False
 
-    whoop_client = current_app.config["WhoopClient"]
+    if request.method == "POST":
+        raise_on_error = True
+
     succeeded_count = {}
     try:
+        whoop_client = current_app.config["WhoopClient"]
+
         cycles = whoop_client.get_cycles()
         sleeps = whoop_client.get_sleeps()
         recoveries = whoop_client.get_recoveries()
@@ -88,6 +103,9 @@ def export():
 
         flash("Export finished", "success")
     except requests.HTTPError as e:
+        if raise_on_error:
+            abort(e.response.status_code, description=e)
+
         flash(f"Error retrieving Whoop data: {e}", "danger")
         return redirect(url_for("webui.index"))
 
@@ -99,3 +117,48 @@ def export():
         workouts=workouts,
         succeeded=succeeded_count,
     )
+
+
+def schedule():
+    """
+    Schedule data export.
+    """
+
+    scheduler = current_app.config.get("Scheduler")
+
+    if not scheduler:
+        return {"error": "Scheduler not configured"}, 500
+
+    data = request.get_json()
+
+    if not data:
+        abort(400, description="Missing input")
+
+    hour = data.get("hour")
+    minute = data.get("minute")
+
+    if hour is None or minute is None:
+        abort(400, description="Invalid input")
+
+    try:
+        hour = int(hour)
+        minute = int(minute)
+
+        if not (0 <= hour <= 23 and 0 <= minute <= 59):
+            raise ValueError
+    except ValueError:
+        abort(400, description="Invalid input")
+
+    scheduler.add_job(
+        func=export_job,
+        trigger="cron",
+        hour=hour,
+        minute=minute,
+        args=[current_app],
+        id="export_job",
+        replace_existing=True,
+    )
+
+    logger.info("Export job scheduled")
+
+    return {"message": "Export scheduled successfully"}, 201

@@ -1,13 +1,23 @@
 from flask import Blueprint
 
-from .views import authorize, callback, export, index
+from .views import authorize, callback, export, index, schedule
 
-bp = Blueprint("webui", __name__, template_folder="templates")
+schedule.methods = ["POST"]  # type: ignore
+export.methods = ["GET", "POST"]  # type: ignore
+
+bp = Blueprint(
+    "webui",
+    __name__,
+    template_folder="templates",
+    static_folder="static",
+    static_url_path="/webui/static",
+)
 
 bp.add_url_rule("/", view_func=index)
 bp.add_url_rule("/authorize", view_func=authorize)
 bp.add_url_rule("/callback", view_func=callback)
 bp.add_url_rule("/export", view_func=export)
+bp.add_url_rule("/schedule", view_func=schedule)
 
 
 def init_app(app):
