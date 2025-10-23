@@ -154,7 +154,7 @@ def schedule():
         trigger="cron",
         hour=hour,
         minute=minute,
-        args=[current_app],
+        args=[current_app._get_current_object()],  # type: ignore
         id="export_job",
         replace_existing=True,
     )
