@@ -11,7 +11,7 @@ class WhoopCycle(db.Model):
     timestamp = db.Column(db.DateTime(timezone=True), nullable=False, index=True)
     updated_at = db.Column(db.DateTime(timezone=True), nullable=False)
     start = db.Column(db.DateTime(timezone=True), nullable=False)
-    end = db.Column(db.DateTime(timezone=True), nullable=True)
+    end = db.Column(db.DateTime(timezone=True), nullable=False)
     timezone_offset = db.Column(db.String(10), nullable=False)
     score_state = db.Column(db.String(15), nullable=False)
 
