@@ -1,6 +1,6 @@
 services:
   whoops:
-    image: docker.io/kryoseu/whoops:latest
+    image: ghcr.io/fjbravo/whoops:latest
     container_name: whoops
     depends_on:
       - postgres
