@@ -34,8 +34,8 @@ class WhoopWorkout(db.Model):
 
     @classmethod
     def from_json(cls, data: dict) -> "WhoopWorkout":
-        score = data.get("score", {})
-        zones = score.get("zone_durations", {})
+        score = data.get("score") or {}
+        zones = score.get("zone_durations") or {}
 
         return cls(
             id=data["id"],  # type: ignore
