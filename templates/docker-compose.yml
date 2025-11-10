@@ -2,17 +2,15 @@ services:
   whoops:
     image: docker.io/kryoseu/whoops:latest
     container_name: whoops
+    depends_on:
+      - postgres
     ports:
       - "5000:5000"
     environment:
-      CLIENT_ID: "<your-whoop-client-id-here"
-      CLIENT_SECRET: "<your-whoop-client-secret-here"
-      REDIRECT_URI: "http://localhost:5000/callback"
+      CLIENT_ID: "${Whoop_Client_ID}"
+      CLIENT_SECRET: "${Whoop_Client_Secret}"
+      REDIRECT_URI: "${Whoops_Redirect_URI}"
       SQLALCHEMY_DATABASE_URI: "postgresql+psycopg2://whoops:whoops@postgres:5432/whoop_data"
-      # Alternative for MySQL
-      # SQLALCHEMY_DATABASE_URI: "mysql+pymysql://whoops:whoops@mysql:3306/whoop_data"
-      # Or for external DB
-      # SQLALCHEMY_DATABASE_URI: "mysql+pymysql://whoops:whoops@<ip>:<port>/whoop_data"
     restart: unless-stopped
 
   postgres:
@@ -23,25 +21,11 @@ services:
       POSTGRES_PASSWORD: "whoops"
       POSTGRES_DB: "whoop_data"
     volumes:
-      - whoops_pgdata:/var/lib/postgresql/data
+      - whoops_pgdata:/var/lib/postgresql
     ports:
       - "5432:5432"
     restart: unless-stopped
 
-  # mysql:
-  #   image: mysql:8.0
-  #   container_name: whoops-mysql
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: "rootpass"
-  #     MYSQL_DATABASE: "whoop_data"
-  #     MYSQL_USER: "whoops"
-  #     MYSQL_PASSWORD: "whoops"
-  #   ports:
-  #     - "3306:3306"
-  #   volumes:
-  #     - whoops_mysqldata:/var/lib/mysql
-  #   restart: unless-stopped
-  #
+
 volumes:
   whoops_pgdata:
-  whoops_mysqldata:
