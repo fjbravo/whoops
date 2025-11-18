@@ -17,11 +17,11 @@ class WhoopWorkout(db.Model):
     score_state = db.Column(db.String(15), nullable=True)
 
     # Score fields
-    strain = db.Column(db.Float, nullable=False)
-    avg_heart_rate = db.Column(db.Integer, nullable=False)
-    max_heart_rate = db.Column(db.Integer, nullable=False)
-    kilojoule = db.Column(db.Float, nullable=False)
-    percent_recorded = db.Column(db.Float, nullable=False)
+    strain = db.Column(db.Float, nullable=True)
+    avg_heart_rate = db.Column(db.Integer, nullable=True)
+    max_heart_rate = db.Column(db.Integer, nullable=True)
+    kilojoule = db.Column(db.Float, nullable=True)
+    percent_recorded = db.Column(db.Float, nullable=True)
     distance_meter = db.Column(db.Float, nullable=True)
     altitude_gain_meter = db.Column(db.Float, nullable=True)
     altitude_change_meter = db.Column(db.Float, nullable=True)
@@ -34,9 +34,9 @@ class WhoopWorkout(db.Model):
 
     @classmethod
     def from_json(cls, data: dict) -> "WhoopWorkout":
-        score = data.get("score", {})
-        zones = score.get("zone_durations", {})
-
+        score = data.get("score") or {}
+        zones = score.get("zone_durations") or {}
+        
         return cls(
             id=data["id"],  # type: ignore
             user_id=data.get("user_id"),  # type: ignore
