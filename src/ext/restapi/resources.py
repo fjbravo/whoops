@@ -2,6 +2,28 @@ import requests
 from flask import abort, current_app, jsonify
 from flask_restful import Resource
 
+from src.ext.restapi.utils import WhoopsDbResource
+
+
+class CycleDataResource(Resource):
+    def get(self):
+        return WhoopsDbResource().from_req()
+
+
+class SleepDataResource(Resource):
+    def get(self):
+        return WhoopsDbResource().from_req()
+
+
+class RecoveryDataResource(Resource):
+    def get(self):
+        return WhoopsDbResource().from_req()
+
+
+class WorkoutDataResource(Resource):
+    def get(self):
+        return WhoopsDbResource().from_req()
+
 
 class WhoopDataResource(Resource):
     def get(self):

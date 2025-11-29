@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Tuple
+from typing import Dict
 
 from src.ext.database import db
 
@@ -48,13 +48,15 @@ class WhoopRecovery(db.Model):
             "sleep_id": self.sleep_id,
             "cycle_id": self.cycle_id,
             "user_id": self.user_id,
-            "timestamp": self.timestamp.isoformat(),
+            "created_at": self.timestamp.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "score_state": self.score_state,
-            "user_calibrating": self.user_calibrating,
-            "recovery_score": self.recovery_score,
-            "resting_heart_rate": self.resting_heart_rate,
-            "hrv_rmssd_ms": self.hrv_rmssd_ms,
-            "spo2_perc": self.spo2_perc,
-            "skin_temp_celsius": self.skin_temp_celsius,
+            "score": {
+                "user_calibrating": self.user_calibrating,
+                "recovery_score": self.recovery_score,
+                "resting_heart_rate": self.resting_heart_rate,
+                "hrv_rmssd_milli": self.hrv_rmssd_ms,
+                "spo2_percentage": self.spo2_perc,
+                "skin_temp_celsius": self.skin_temp_celsius,
+            },
         }

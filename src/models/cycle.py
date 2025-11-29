@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Tuple
+from typing import Dict
 
 from src.ext.database import db
 
@@ -46,14 +46,16 @@ class WhoopCycle(db.Model):
     def to_dict(self) -> Dict:
         return {
             "id": self.id,
-            "timestamp": self.timestamp.isoformat(),
+            "created_at": self.timestamp.isoformat(),
             "updated_at": self.updated_at.isoformat(),
             "start": self.start.isoformat(),
             "end": self.end.isoformat() if self.end else None,
             "timezone_offset": self.timezone_offset,
             "score_state": self.score_state,
-            "strain": self.strain,
-            "kilojoule": self.kilojoule,
-            "avg_heart_rate": self.avg_heart_rate,
-            "max_heart_rate": self.max_heart_rate,
+            "score": {
+                "strain": self.strain,
+                "kilojoule": self.kilojoule,
+                "average_heart_rate": self.avg_heart_rate,
+                "max_heart_rate": self.max_heart_rate,
+            },
         }

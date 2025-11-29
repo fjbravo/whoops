@@ -6,3 +6,16 @@ from .sleep import WhoopSleep
 from .workout import WhoopWorkout
 
 Model = TypeVar("Model", WhoopCycle, WhoopRecovery, WhoopSleep, WhoopWorkout)
+
+
+def from_path(path: str):
+    if "cycle" in path:
+        return WhoopCycle
+    elif "recovery" in path:
+        return WhoopRecovery
+    elif "sleep" in path:
+        return WhoopSleep
+    elif "workout" in path:
+        return WhoopWorkout
+    else:
+        raise ValueError(f"Unknown model for path: {path}")
