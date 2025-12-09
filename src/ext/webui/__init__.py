@@ -3,7 +3,7 @@ from flask import Blueprint
 from .views import authorize, callback, export, index, schedule
 
 schedule.methods = ["POST"]  # type: ignore
-export.methods = ["GET", "POST"]  # type: ignore
+export.methods = ["POST"]  # type: ignore
 
 bp = Blueprint(
     "webui",

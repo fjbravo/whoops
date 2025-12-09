@@ -31,23 +31,16 @@ def query_all_between(model, start: datetime, end: datetime) -> List:
         raise
 
 
-def add_all(models) -> int:
+def add_all(models):
     """Add a list of models to the database."""
-    if not models:
-        return 0
-
-    succeeded = 0
     for model in models:
         try:
             db.session.add(model)
             db.session.commit()
-            succeeded += 1
         except IntegrityError:
             db.session.rollback()
         except Exception:
             raise
-
-    return succeeded
 
 
 def init_app(app):
