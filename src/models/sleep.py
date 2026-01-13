@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, Tuple
+from typing import Dict
 
 from src.ext.database import db
 
@@ -81,27 +81,33 @@ class WhoopSleep(db.Model):
         return {
             "id": self.id,
             "cycle_id": self.cycle_id,
-            "timestamp": self.timestamp.isoformat(),
+            "created_at": self.timestamp.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
             "start": self.start.isoformat(),
             "end": self.end.isoformat(),
             "timezone_offset": self.timezone_offset,
             "nap": self.nap,
             "score_state": self.score_state,
-            "respiratory_rate": self.respiratory_rate,
-            "performance_perc": self.performance_perc,
-            "consistency_perc": self.consistency_perc,
-            "efficiency_perc": self.efficiency_perc,
-            "total_in_bed_ms": self.total_in_bed_ms,
-            "total_awake_ms": self.total_awake_ms,
-            "total_no_data_ms": self.total_no_data_ms,
-            "total_light_sleep_ms": self.total_light_sleep_ms,
-            "total_slow_wave_sleep_ms": self.total_slow_wave_sleep_ms,
-            "total_rem_sleep_ms": self.total_rem_sleep_ms,
-            "sleep_cycle_count": self.sleep_cycle_count,
-            "disturbance_count": self.disturbance_count,
-            "sleep_needed_baseline_ms": self.sleep_needed_baseline_ms,
-            "sleep_debt_ms": self.sleep_debt_ms,
-            "add_sleep_from_strain_ms": self.add_sleep_from_strain_ms,
-            "add_sleep_from_nap_ms": self.add_sleep_from_nap_ms,
+            "score": {
+                "respiratory_rate": self.respiratory_rate,
+                "sleep_performance_percentage": self.performance_perc,
+                "sleep_consistency_percentage": self.consistency_perc,
+                "sleep_efficiency_percentage": self.efficiency_perc,
+                "stage_summary": {
+                    "total_in_bed_time_milli": self.total_in_bed_ms,
+                    "total_awake_time_milli": self.total_awake_ms,
+                    "total_no_data_time_milli": self.total_no_data_ms,
+                    "total_light_sleep_time_milli": self.total_light_sleep_ms,
+                    "total_slow_wave_sleep_time_milli": self.total_slow_wave_sleep_ms,
+                    "total_rem_sleep_time_milli": self.total_rem_sleep_ms,
+                    "sleep_cycle_count": self.sleep_cycle_count,
+                    "disturbance_count": self.disturbance_count,
+                },
+                "sleep_needed": {
+                    "baseline_milli": self.sleep_needed_baseline_ms,
+                    "need_from_sleep_debt_milli": self.sleep_debt_ms,
+                    "need_from_recent_strain_milli": self.add_sleep_from_strain_ms,
+                    "need_from_recent_nap_milli": self.add_sleep_from_nap_ms,
+                },
+            },
         }

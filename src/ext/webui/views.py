@@ -13,11 +13,12 @@ from flask import (
 )
 
 from src.ext.database import add_all, query_all
-from src.ext.jobs import export_job
+from src.ext.jobs import export_job, run_export
 from src.models.cycle import WhoopCycle
 from src.models.recovery import WhoopRecovery
 from src.models.sleep import WhoopSleep
 from src.models.workout import WhoopWorkout
+from src.retry import retry
 
 logger = logging.getLogger(__name__)
 
@@ -76,47 +77,17 @@ def export():
     """
     Retrieve and export Whoop data.
     """
-    raise_on_error = False
+    logger.info("Starting export via web UI")
 
-    if request.method == "POST":
-        raise_on_error = True
-
-    succeeded_count = {}
     try:
-        whoop_client = current_app.config["WhoopClient"]
-
-        cycles = whoop_client.get_cycles()
-        sleeps = whoop_client.get_sleeps()
-        recoveries = whoop_client.get_recoveries()
-        workouts = whoop_client.get_workouts()
-
-        models = {
-            "Cycles": cycles,
-            "Sleeps": sleeps,
-            "Recoveries": recoveries,
-            "Workouts": workouts,
-        }
-
-        with current_app.app_context():
-            for name, models in models.items():
-                succeeded_count[name] = add_all(models)
+        run_export(current_app)
 
         flash("Export finished", "success")
+        return jsonify({"message": "Export finished"}), 201
+
     except requests.HTTPError as e:
-        if raise_on_error:
-            abort(e.response.status_code, description=e)
-
-        flash(f"Error retrieving Whoop data: {e}", "danger")
-        return redirect(url_for("webui.index"))
-
-    return render_template(
-        "export.html",
-        cycles=cycles,
-        sleeps=sleeps,
-        recoveries=recoveries,
-        workouts=workouts,
-        succeeded=succeeded_count,
-    )
+        logger.error(e)
+        abort(e.response.status_code, description=e)
 
 
 def schedule():

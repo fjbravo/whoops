@@ -17,11 +17,11 @@ class WhoopWorkout(db.Model):
     score_state = db.Column(db.String(15), nullable=True)
 
     # Score fields
-    strain = db.Column(db.Float, nullable=False)
-    avg_heart_rate = db.Column(db.Integer, nullable=False)
-    max_heart_rate = db.Column(db.Integer, nullable=False)
-    kilojoule = db.Column(db.Float, nullable=False)
-    percent_recorded = db.Column(db.Float, nullable=False)
+    strain = db.Column(db.Float, nullable=True)
+    avg_heart_rate = db.Column(db.Integer, nullable=True)
+    max_heart_rate = db.Column(db.Integer, nullable=True)
+    kilojoule = db.Column(db.Float, nullable=True)
+    percent_recorded = db.Column(db.Float, nullable=True)
     distance_meter = db.Column(db.Float, nullable=True)
     altitude_gain_meter = db.Column(db.Float, nullable=True)
     altitude_change_meter = db.Column(db.Float, nullable=True)
@@ -69,25 +69,29 @@ class WhoopWorkout(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "timestamp": self.timestamp.isoformat(),
+            "created_at": self.timestamp.isoformat(),
             "updated_at": self.updated_at.isoformat() if self.updated_at else None,
             "start": self.start.isoformat(),
             "end": self.end.isoformat(),
             "timezone_offset": self.timezone_offset,
             "sport_name": self.sport_name,
             "score_state": self.score_state,
-            "strain": self.strain,
-            "avg_heart_rate": self.avg_heart_rate,
-            "max_heart_rate": self.max_heart_rate,
-            "kilojoule": self.kilojoule,
-            "percent_recorded": self.percent_recorded,
-            "distance_meter": self.distance_meter,
-            "altitude_gain_meter": self.altitude_gain_meter,
-            "altitude_change_meter": self.altitude_change_meter,
-            "zone_zero_milli": self.zone_zero_milli,
-            "zone_one_milli": self.zone_one_milli,
-            "zone_two_milli": self.zone_two_milli,
-            "zone_three_milli": self.zone_three_milli,
-            "zone_four_milli": self.zone_four_milli,
-            "zone_five_milli": self.zone_five_milli,
+            "score": {
+                "strain": self.strain,
+                "average_heart_rate": self.avg_heart_rate,
+                "max_heart_rate": self.max_heart_rate,
+                "kilojoule": self.kilojoule,
+                "percent_recorded": self.percent_recorded,
+                "distance_meter": self.distance_meter,
+                "altitude_gain_meter": self.altitude_gain_meter,
+                "altitude_change_meter": self.altitude_change_meter,
+                "zone_durations": {
+                    "zone_zero_milli": self.zone_zero_milli,
+                    "zone_one_milli": self.zone_one_milli,
+                    "zone_two_milli": self.zone_two_milli,
+                    "zone_three_milli": self.zone_three_milli,
+                    "zone_four_milli": self.zone_four_milli,
+                    "zone_five_milli": self.zone_five_milli,
+                },
+            },
         }
